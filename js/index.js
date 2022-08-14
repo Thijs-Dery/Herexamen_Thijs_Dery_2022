@@ -1,8 +1,5 @@
 "use strict";
 
-
-
-
 class Measurements {
   constructor(value, unit, timestamp) {
     this._value = value;
@@ -28,9 +25,6 @@ class Measurements {
   }
 }
 
-
-
-
 const app = {
   measurements: [],
   filtered: [],
@@ -48,18 +42,20 @@ const app = {
 
   },
 
-  renderChart(type, array){
-    for (let i = 5; i < 12;) {
-      i++;
-      i = i.toString();
-      let maandFilter = this.measurements.filter((obj) => obj.date[1] === i);
-      let unit = maandFilter.filter((obj) => obj.unit === type);
-      let reduced = unit.reduce((sum, obj) => {
-        return sum + obj.value;
-      }, 0);
-      array.push(reduced);
-      console.log("reduced", reduced)
-    }
+  renderChart(type, array) {
+    setTimeout(() => {
+      for (let i = 5; i < 12;) {
+        i++;
+        i = i.toString();
+        let maandFilter = this.measurements.filter((obj) => obj.date[1] === i);
+        let unit = maandFilter.filter((obj) => obj.unit === type);
+        let reduced = unit.reduce((sum, obj) => {
+          return sum + obj.value;
+        }, 0);
+        array.push(reduced);
+        console.log("reduced", reduced)
+      }
+    }, 250);
   },
 
   async fetchData() {
@@ -73,9 +69,11 @@ const app = {
       .then(console.log("measurements", this.measurements))
       .then(console.log("values", this.values))
       .then(console.log("timestamps", this.timestamps))
+
   },
 
   async filter() {
+
     if (this.selectedMeasurement == "all") {
       this.filtered = this.measurements;
     }
@@ -142,7 +140,7 @@ const app = {
           console.log("all")
           break;
       }
-    }, 1000);
+    }, 250);
   },
 
   render() {
@@ -157,71 +155,69 @@ const app = {
 
 app.init();
 
-setTimeout(() => {
-  const co2Values = [];
-  const vocValues = [];
-  const pm25Values = [];
-  const pm10Values = [];
-  app.renderChart("CO2", co2Values);
-  app.renderChart("VOC", vocValues);
-  app.renderChart("PM25", pm25Values);
-  app.renderChart("PM10", pm10Values);
-  console.log("co2Values", co2Values);
-  console.log("vocValues", vocValues);
-  console.log("pm25Values", pm25Values);
-  console.log("pm10Values", pm10Values);
+const co2Values = [];
+const vocValues = [];
+const pm25Values = [];
+const pm10Values = [];
+app.renderChart("CO2", co2Values);
+app.renderChart("VOC", vocValues);
+app.renderChart("PM25", pm25Values);
+app.renderChart("PM10", pm10Values);
+console.log("co2Values", co2Values);
+console.log("vocValues", vocValues);
+console.log("pm25Values", pm25Values);
+console.log("pm10Values", pm10Values);
 
-  /////DRAWING A CHART/////
-  //setup
-  const data = {
-    labels: ['Juni', 'Juli', 'Augustus', 'September', 'October', 'November', 'December'],
-    datasets: [{
-      label: 'CO2',
-      data: co2Values,
-      backgroundColor: [
-        "red"
-      ],
-    },
-    {
-      label: 'VOC',
-      data: vocValues,
-      backgroundColor: [
-        "blue"
-      ],
-    },
-    {
-      label: 'PM25',
-      data: pm25Values,
-      backgroundColor: [
-        "yellow"
-      ],
-    },
-    {
-      label: 'PM10',
-      data: [5, 4, 5, 6, 7, 8, 3],
-      backgroundColor: [
-        "green"
-      ],
-    }]
-  }
+/////DRAWING A CHART/////
+//setup
+const data = {
+  labels: ['Juni', 'Juli', 'Augustus', 'September', 'October', 'November', 'December'],
+  datasets: [{
+    label: 'CO2',
+    data: co2Values,
+    backgroundColor: [
+      "purple"
+    ],
+  },
+  {
+    label: 'VOC',
+    data: vocValues,
+    backgroundColor: [
+      "white"
+    ],
+  },
+  {
+    label: 'PM25',
+    data: pm25Values,
+    backgroundColor: [
+      "gray"
+    ],
+  },
+  {
+    label: 'PM10',
+    data: [5, 4, 5, 6, 7, 8, 3],
+    backgroundColor: [
+      "red"
+    ],
+  }]
+}
 
-  // config 
-  const config = {
-    type: 'bar',
-    data,
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
+// config 
+const config = {
+  type: 'bar',
+  data,
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
       }
     }
-  };
+  }
+};
 
-  const myChart = new Chart(
-    document.getElementById('myChart'),
-    config
-  );
+const myChart = new Chart(
+  document.getElementById('myChart'),
+  config
+);
 
   /////END OF DRAWING CHART/////
-}, 1000);
