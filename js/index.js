@@ -55,7 +55,7 @@ const app = {
         array.push(reduced);
         console.log("reduced", reduced)
       }
-    }, 250);
+    }, 500);
   },
 
   async fetchData() {
@@ -140,7 +140,7 @@ const app = {
           console.log("all")
           break;
       }
-    }, 250);
+    }, 500);
   },
 
   render() {
